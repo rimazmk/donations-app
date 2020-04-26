@@ -1,13 +1,17 @@
 import React from 'react';
-import Menu from './components/Menu'
-import Homepage from './components/Homepage'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import Menu from './components/Menu';
+import Homepage from './components/Homepage';
+import PaymentForm from './components/PaymentForm';
 
 function App() {
   return (
-    <div>
+    <Router>
       <Menu />
-      <Homepage />
-    </div>
+      <Route path="/" exact component={Homepage} />
+      <Route path="/payment/:id" component={PaymentForm} />
+    </Router>
   );
 }
 

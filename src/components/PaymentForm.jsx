@@ -1,44 +1,94 @@
-import React from 'react';
-import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import React, {Component} from 'react';
+import {
+  CardElement,
+  injectStripe,
+  StripeProvider,
+  Elements,
+} from 'react-stripe-elements';
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handleSubmit = async (event) => {
-    // Block native form submission.
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
+// You can customize your Elements to give it the look and feel of your site.
+const createOptions = () => {
+  return {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#000000',
+        fontFamily: 'Open Sans, sans-serif',
+        letterSpacing: '0.025em',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#c23d4b',
+      },
     }
+  }
+};
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
-    const cardElement = elements.getElement(CardElement);
+class _CardForm extends Component {
+  state = {
+    errorMessage: '',
+  };
 
-    // Use your card Element with other Stripe.js APIs
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-    });
-
+  handleChange = ({error}) => {
     if (error) {
-      console.log('[error]', error);
-    } else {
-      console.log('[PaymentMethod]', paymentMethod);
+      this.setState({errorMessage: error.message});
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Pay
-      </button>
-    </form>
-  );
-};
+  handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (this.props.stripe) {
+      this.props.stripe.createToken().then(this.props.handleResult);
+    } else {
+      console.log("Stripe.js hasn't loaded yet.");
+    }
+  };
+
+  render() {
+    return (
+      <div className="CardDemo">
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>
+            Card details
+            <CardElement
+              onChange={this.handleChange}
+              {...createOptions()}
+            />
+          </label>
+          <div className="error" role="alert">
+            {this.state.errorMessage}
+          </div>
+          <button>Pay</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+const CardForm = injectStripe(_CardForm);
+
+export default class PaymentForm extends Component {
+  render() {
+    return (
+        <div className="container-lg mt-3 mb-3">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        <div className="d-flex flex-column align-items-center">
+      <StripeProvider stripe={null}>
+        <Elements>
+          <CardForm handleResult={this.props.handleResult} />
+        </Elements>
+      </StripeProvider>
+      </div>
+      </div>
+    );
+  }
+}
