@@ -25,8 +25,11 @@ app.get('/', (req, res) => {
     res.send('heyo');
 })
 
+// Endpoint to fetch Donees
 app.get('/donees', (req, res) => {
-
+    Donee.find({}, (err, donees) => {
+        res.send(donees);
+    })
 })
 
 // Insert new Donee into DB
@@ -35,16 +38,18 @@ app.post('/insert', (req, res) => {
     let donations = 0;
     let needed = req.body.needed;
     let img_url = req.body.img_url;
-    let desc = req.body.description;
+    let description = req.body.description;
+
+    // console.log(desc)
 
     const newUser = new Donee({
         name,
         donations,
         needed,
         img_url,
-        desc
+        description
     });
-
+    console.log(newUser);
     newUser.save()
         .then(() => res.send("New user saved!"))
         .catch((err) => res.send(err))

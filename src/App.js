@@ -1,13 +1,12 @@
 import React from 'react';
 import Menu from './components/Menu'
-import Cardview from './components/Card'
-
+import Homepage from './components/Homepage'
 
 function App() {
   return (
     <div>
       <Menu />
-      <Cardview />
+      <Homepage />
     </div>
   );
 }
