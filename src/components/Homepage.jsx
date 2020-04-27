@@ -13,7 +13,7 @@ class Homepage extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/donees')
+        axios.get('/donees')
             .then((res) => this.setState({ users: res.data }))
             .catch((err) => console.log(err))
     }
