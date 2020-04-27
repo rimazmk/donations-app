@@ -2,6 +2,10 @@
   "name": "test-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.11.3",
+    "node": "12.12.0"
+  },
   "dependencies": {
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.4.0",
@@ -31,7 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tb": "nodemon backend/server.js"
+    "tb": "nodemon backend/server.js",
+    "heroku-postbuild": "cd backend && node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
