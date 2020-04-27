@@ -22,7 +22,7 @@ const Cardview = (props) => {
                     </Card.Text>
                     
                     <Button variant="primary">
-                        <Card.Link href="/payment/:{props.props.id}" style={{color: "white"}}>Donate!</Card.Link>
+                        <Card.Link href="/donate" style={{color: "white"}}>Donate!</Card.Link>
                     </Button>
                 </Card.Body>
             </Card>

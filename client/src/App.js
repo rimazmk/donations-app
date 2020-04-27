@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Menu />
       <Route path="/" exact component={Homepage} />
-      <Route path="/payment/:id" component={PaymentForm} />
+      <Route path="/donate" component={PaymentForm} />
     </Router>
   );
 }
