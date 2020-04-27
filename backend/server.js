@@ -10,11 +10,10 @@ app.use(bodyParser.json())
 
 const mongoose = require('mongoose');
 const Donee = require('./models/donee.model');
-require('dotenv').config();
+// require('dotenv').config();
 
 //connect to MongoDB
-const uri = "mongodb+srv://rimazk:Gacbad786!@cluster0-gavmd.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect("mongodb+srv://rimazk:Gacbad786!@cluster0-gavmd.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useCreateIndex: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
