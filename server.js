@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,19 +20,23 @@ connection.once('open', () => {
 });
 
 
-app.get('/', (req, res) => {
-    res.send('heyo');
-})
+const path = require('path')
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'client/build')))
+// Anything that doesn't match the above, send back index.html
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/client/build/index.html'))
+// })
 
 // Endpoint to fetch Donees
-app.get('/donees', (req, res) => {
+app.get('/api/donees', (req, res) => {
     Donee.find({}, (err, donees) => {
         res.send(donees);
     })
 })
 
 // Insert new Donee into DB
-app.post('/insert', (req, res) => {
+app.post('/api/insert', (req, res) => {
     let name = req.body.name;
     let donations = 0;
     let needed = req.body.needed;
